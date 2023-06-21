@@ -1,6 +1,6 @@
 # E-Commerce-Backend
 ***
-# #Description
+## Description
 ***
 This project is an eCommerce-backend built with Express.js, PostgreSQL, and Sequelize. It provides a boilerplate for
 creating an eCommerce backend with features like user registration and authentication, product management, cart
@@ -72,7 +72,7 @@ npm install
 npm run dev
 ```
 ***
-# #Database
+## Database
 - MySQL
 ***
 ## Features
