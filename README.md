@@ -1,14 +1,14 @@
 # E-Commerce-Backend
 ***
-##Description
+# # Description
 ***
 This project is an eCommerce-backend built with Express.js, PostgreSQL, and Sequelize. It provides a boilerplate for
 creating an eCommerce backend with features like user registration and authentication, product management, cart
 management, and order management.
 ***
-##Technologies Used
+# # Technologies Used
 ***
-###Server
+# # # Server
 - node js - version 18.13.0
 - nodemon - version 2.0.22
 - express - version 4.18.2
@@ -22,11 +22,11 @@ management, and order management.
 - sequelize-cli - 6.6.0
 - stripe - version 12.8.0
 ***
-#E-Commerce-Frontend
+# E-Commerce-Frontend
 ***
-##Description
+# # Description
 ***
-###Built With
+# # # Built With
 - ReactJS
 - TypeScript
 - Redux Toolkit
@@ -34,7 +34,7 @@ management, and order management.
 - React Router DOM
 - Vite
 ***
-##Technologies Used
+# # Technologies Used
 ***
 - @mui/icons-material - Material-UI icons library.
 - axios - Promise-based HTTP client for making API requests.
@@ -42,7 +42,7 @@ management, and order management.
 - react-jwt - React library for handling JWT authentication.
 - react-stripe-checkout - React library for integrating with Stripe checkout.
 - Yup - JavaScript schema validation library 
-##Features
+# # Features
 ***
 - Home Page: A visually appealing landing page.
 
@@ -58,7 +58,7 @@ management, and order management.
 
 - Secure Checkout: The website integrates with Stripe, a secure payment gateway, to facilitate seamless and secure transactions. Users can enter their payment details, and complete the purchase with confidence.
 ***
-##Installation
+# # Installation
 Clone the repository:
 ```
 https://github.com/AvetisyanJen/Shop_website_front.git
@@ -67,15 +67,15 @@ Install the dependencies:
 ```
 npm install
 ```
-##Usage
+# # Usage
 ```
 npm run dev
 ```
 ***
-##Database
+# # Database
 - MySQL
 ***
-##Features
+# # Features
 - User registration and login
 - Authentication via JWT
 - Email confirmation
@@ -86,13 +86,13 @@ npm run dev
 - PostgreSQL database with Sequelize ORM
 - Role-based access control (admin and user roles)
 - Seeding
-##Installing
+# # Installing
 ```
 git clone https://github.com/AvetisyanJen/shop_website_backend.git
 npm install
 ```
 ***
-##Getting Started
+# # Getting Started
 ***
 - To test the application
 - Install PostgreSQL database and create a new database for the project: npx sequelize-cli db:create
