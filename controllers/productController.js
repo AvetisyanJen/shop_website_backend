@@ -1,22 +1,74 @@
-const { Product, Photo, sequelize,Category,Movement,Brand,gender } = require("../models/index");
+const { Product, Photo, sequelize,Category,Movement,Brand,gender,OrderProduct } = require("../models/index");
 const fs=require("fs")
 const path=require("path")
 class ProductController{
 
-  // async getProducts(req, res) {
-  //   let product = Product.findAll({
-  //     // include: [{ model: Photo}, { model: Category }]
-  //     include: { all: true, nested: true }
-  // })
-  //     .then((prod) => {
-       
-  //         res.json(prod)
-  //     }).catch((err) => {
-  //         res.status(500).json({ eror: err.message })
-  //     })
-  // }
+ 
+// async getProduct(req, res) {
+//   const { id } = req.params;
+//   try {
+//     const product = await Product.findOne({
+//       where: { id },
+//       include: [{ model: Photo}, { model: Category },{model:Movement},{model:Brand},{model:gender}],
+//     });
+//     res.status(201).json(product);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// }
+// async getProduct(req, res) {
+//   const { id } = req.params;
+//   try {
+//     const product = await Product.findOne({
+//       where: { id },
+//       include: [{ model: Photo}, { model: Category },{model:Movement},{model:Brand},{model:gender}],
+//     });
+
+//     if (!product) {
+//       return res.status(404).json({ message: 'Product not found' });
+//     }
+
+//     const totalPurchases = await OrderProduct.count({
+//       where: { product_id: id }
+//     });
+
+//     // Add the totalPurchases count to the product object
+//     product.dataValues.totalPurchases = totalPurchases;
+
+//     res.status(201).json(product);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// }
+async getProduct(req, res) {
+  const { id } = req.params;
+  try {
+    const product = await Product.findOne({
+      where: { id },
+      include: [{ model: Photo}, { model: Category },{model:Movement},{model:Brand},{model:gender}],
+    });
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    const totalPurchases = await OrderProduct.sum('quantity', {
+      where: { product_id: id }
+    });
+
+    // Add the totalPurchases and totalQuantity to the product object
+    product.dataValues.totalPurchases = totalPurchases;
+   
+
+    res.status(201).json(product);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+
   
-  async getProducts(req, res) {
+  async allProducts(req, res) {
     try {
       const products = await Product.findAll({
         // include: { all: true, nested: true },

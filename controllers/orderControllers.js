@@ -16,7 +16,7 @@ class OrderController {
     const cartItems = await CartProducts.findAll({
       where: { cartId: cart.id },
 
-      include: { all: true, nested: true },
+       include: [{model:Product}],
     });
 
     let total = 0;
