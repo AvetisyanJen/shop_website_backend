@@ -5,18 +5,27 @@ const { generateAccessToken } = require('../jwt/genarate');
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 const SECRET = process.env.SECRET
+const { validationResult, body } = require("express-validator");
+
+
+
 
 class UserController {
+
+
   async registerUser(req, res) {
+   
     try {
       const port = process.env.PORT || 3000; 
       const { email, userName, password } = req.body;
+      const errors = validationResult(req);
   console.log(req.body)
     
-      if (!email || !userName || !password) {
-        return res.status(400).json({ error: "Please provide all required fields." });
+      
+      if (!errors.isEmpty()) {
+        const errorMessage = errors.array()[0].msg;
+        return res.status(400).json({ error: errorMessage });
       }
-  
 
        const existingUser = await User.findOne({ where: { email: email } });
       if (existingUser) {
@@ -26,7 +35,7 @@ class UserController {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
   
-      await User.create({ email, userName, password: hashedPassword });
+      await User.create({ email, userName, password: hashedPassword});
   
       const token = generateAccessToken(email);
       sendMail(email, `<h2>hi dear  ${userName}</h2>,
@@ -40,6 +49,7 @@ class UserController {
   }
   
   //http://localhost:${port}/user/verify?token=${token}
+
 
   async loginUser(req, res) {
     const { email, password } = req.body;
@@ -58,6 +68,8 @@ class UserController {
     } else if (user.is_verified == 1) {
       const token = generateAccessToken(email, user.userName, user.id, user.role, user.is_verified);
       res.json({ status: "Logged in", user, jwt: token });
+    }else if(user.is_verified === 0) {
+      return res.status(400).json({message:"You Need Verification!"});
     }
   }
   

@@ -8,9 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasOne(models.Cart, {
         foreignKey: 'userId',
+        onDelete: 'CASCADE',
       });
-      User.hasMany(models.Order,{
-        foreignKey: 'user_id'})
+      
+      User.hasMany(models.feedback,{
+        foreignKey: 'user_Id',targetKey: 'id' ,as: 'feedbacks'})
     }
   }
   User.init({

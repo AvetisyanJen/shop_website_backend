@@ -10,11 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Product.belongsTo(models.Category,{foreignKey:'categoryId'});
-      Product.hasMany(models.Photo, {foreignKey:'ProductId'});
-      // Product.belongsToMany(models.Cart, { through: models.CartProducts, foreignKey:'cartId', key:'id' });
-      Product.hasMany(models.CartProducts, {foreignKey:'ProductId', key:'id'});
-      Product.belongsToMany(models.Order,{through:models.OrderProduct,foreignKey:'order_id', key:'id'})
+      Product.belongsTo(models.Category, { foreignKey: 'categoryId' });
+      Product.belongsTo(models.Brand, { foreignKey: 'brandId' });
+      Product.belongsTo(models.gender, { foreignKey: 'genderId' });
+      Product.belongsTo(models.Movement, { foreignKey: 'movementId' });
+      
+
+      Product.hasMany(models.Photo, { foreignKey: 'ProductId' });
+      Product.hasMany(models.CartProducts, { foreignKey: 'ProductId' });
+      Product.belongsToMany(models.Order, { through: models.OrderProduct, foreignKey: 'product_id' });
+      Product.hasMany(models.OrderProduct, { foreignKey: 'product_id' });
     }
     
     
@@ -23,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     price: DataTypes.DECIMAL,
     count: DataTypes.DECIMAL,
-    description: DataTypes.STRING
+    description: DataTypes.STRING,
+  
   }, {
     sequelize,
     modelName: 'Product',

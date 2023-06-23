@@ -1,19 +1,25 @@
 const nodemailer = require("nodemailer");
 require('dotenv').config();
-const username=process.env.USERNAME
-const password= process.env.PASSWORD
+
+const USER_SENDER= process.env.USER_SENDER
+const PASSWORD=  process.env.PASSWORD
+
+
+
 function sendMail(mail,link){
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user:username,
-          pass:password
-        }
+          user:USER_SENDER,
+          pass:PASSWORD
+        },
+        tls:{rejectUnauthorized:true}
+
       });
-    
+  
       const mailOptions = {
-        from:password,
+        from:PASSWORD,
         to: mail,
       
         // text: `Click  ${link}`

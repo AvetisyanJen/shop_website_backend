@@ -7,9 +7,9 @@ const cartProduct_router = express.Router();
 
  cartProduct_router.post("/addcartProd",CartProductController.addCartProduct)
  cartProduct_router.get("/getCartProduct/:id",AuthenticateUserToken,CartProductController.getCartProducts)
- cartProduct_router.put("/increment",CartProductController.incrementQuantity)
- cartProduct_router.put("/decrement",CartProductController.decrementQuantity)
- cartProduct_router.delete("/delete",CartProductController.removeCartProduct)
+ cartProduct_router.put("/increment",AuthenticateUserToken,CartProductController.incrementQuantity)
+ cartProduct_router.put("/decrement",AuthenticateUserToken,CartProductController.decrementQuantity)
+ cartProduct_router.delete("/delete",AuthenticateUserToken,CartProductController.removeCartProduct)
 
 
 module.exports=cartProduct_router

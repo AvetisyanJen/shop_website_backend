@@ -7,23 +7,33 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       productId: {
         type: Sequelize.INTEGER,
         references:
-        {model:'Products', key:'id'}
+        {model:'Products', key:'id'},
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       url: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       }
     });
   },

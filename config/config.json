@@ -2,21 +2,21 @@
   "development": {
     "username": "mrgm_comp",
     "password": "jen.avetis1991",
-    "database": "new",
+    "database": "watche",
     "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
     "username": "mrgm_comp",
     "password": "jen.avetis1991",
-    "database": "new",
+    "database": "watche",
     "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
     "username": "mrgm_comp",
     "password": "jen.avetis1991",
-    "database": "new",
+    "database": "watche",
     "host": "localhost",
     "dialect": "mysql"
   }

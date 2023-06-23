@@ -1,7 +1,7 @@
 const stripe = require("stripe")(
   "sk_test_51KjlUTEwie5RP3GFNfBKfqObEdTWw26tJIfNSJoIkUVfEaD3GN40zBYgNXfksZ5GHyduMygmCvVByaUvYWIHZYiJ00tVZhPEGj"
 );
-const { CartProducts, Cart, Order, OrderProduct } = require("../models");
+const { CartProducts, Cart, Order,User,Product,Photo,OrderProduct } = require("../models");
 class OrderController {
 
   async payment(req, res) {
@@ -41,7 +41,7 @@ class OrderController {
         });
 
         let order = await Order.create({
-          users_id: userId,
+          user_id: userId,
           total: total,
         });
         cartItems.forEach(async (el) => {
@@ -63,52 +63,82 @@ class OrderController {
         });
         console.log(req.body);
         res.status(200).json({ message: "Payment successful" });
-        // let allcarts = await Cart.findAll({
-        //   where: { user_id: req?.user?.id },
-        //   include: { all: true, nested: true },
-        // });
-        // res.send({ allcarts });
       })
       .catch((err) => console.log(err));
   }
   
   
-
-
-
-
-
   async getOrderProducts(req, res) {
-
     const { id } = req.params;
-    console.log(id)
+    console.log(id);
+    
     try {
-      const order = await Order.findOne({ where: { user_id: id } });
-      if (order) {
-        const orderItems = await OrderProduct.findAll({
-          where: { order_id: order.id },
-
-          include: { all: true, nested: true },
-
-
-        });
-
-        console.log(orderItems)
-
-        res.json(orderItems);
-      } else {
-        res.status(404).json({ error: 'order not found' });
-      }
+      const orderItems = await Order.findAll({
+        where: { user_id:id },
+        include: [
+          {
+            model: OrderProduct,
+            include: [
+              {
+                model: Product,
+                include: [
+                  {
+                    model: Photo,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      
+      res.json(orderItems);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-
-
-
-
-
-
   }
+  
+
+
+  // async getOrderProducts(req, res) {
+  //   const { id } = req.params;
+  //   console.log(id);
+  //   try {
+  //     // const order = await Order.findOne({ where: { user_id: id } });
+  //     // if (order) {
+  //       const orderItems = await OrderProduct.findAll({
+  //         where: { order_id: id},
+  //         include: [
+  //           {
+  //             model: Product,
+  //             // as: 'product',
+  //             include: [
+  //               {
+  //                 model: Photo,
+  //                 // as: 'photos',
+  //               },
+  //             ],
+  //           },
+  //         ],
+  //       });
+  
+      
+  
+  //       res.json(orderItems);
+  //     // } else {
+  //     //   res.status(404).json({ error: 'order not found' });
+  //     // }
+  //   } catch (error) {
+  //     res.status(500).json({ error: error.message });
+  //   }
+  // }
+  
+  
+
+
+
+
+
 
 }
 

@@ -1,25 +1,42 @@
-const { Product, Photo, sequelize,Category } = require("../models");
+const { Product, Photo, sequelize,Category,Movement,Brand,gender } = require("../models/index");
 const fs=require("fs")
 const path=require("path")
 class ProductController{
 
-  async getProducts(req, res) {
-    let product = Product.findAll({
-      include: [{ model: Photo}, { model: Category }]
-  })
-      .then((prod) => {
+  // async getProducts(req, res) {
+  //   let product = Product.findAll({
+  //     // include: [{ model: Photo}, { model: Category }]
+  //     include: { all: true, nested: true }
+  // })
+  //     .then((prod) => {
        
-          res.json(prod)
-      }).catch((err) => {
-          res.status(500).json({ eror: err.message })
-      })
+  //         res.json(prod)
+  //     }).catch((err) => {
+  //         res.status(500).json({ eror: err.message })
+  //     })
+  // }
+  
+  async getProducts(req, res) {
+    try {
+      const products = await Product.findAll({
+        // include: { all: true, nested: true },
+        include: [{ model: Photo}, { model: Category },{model:Movement},{model:Brand},{model:gender}]
+      });
+  
+      if (products && products.length > 0) {
+        res.json(products);
+      } else {
+        res.json([]); // Send an empty array if no products found
+      }
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
   }
   
 
-
   async createProduct(req, res) {
     try {
-        const { name, price, count, description, categoryId } = req.body;
+        const { name, price, count, description, categoryId,brandId, movementId,genderId } = req.body;
         await sequelize.authenticate();
       
         const newProduct = await Product.create({
@@ -28,8 +45,11 @@ class ProductController{
           count,
           description,
           categoryId,
+          brandId,
+          movementId,
+          genderId
         });
-      
+      console.log(req.body)
         const photos = req.files.map((file) => {
             return {
                 url: file.filename,

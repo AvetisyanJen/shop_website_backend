@@ -1,4 +1,4 @@
-const {CartProducts,Cart,Product}= require("../models");
+const {CartProducts,Cart,Product,Photo}= require("../models");
 
 class CartProductController{
 
@@ -11,7 +11,7 @@ class CartProductController{
       }
       let cartItem = await CartProducts.findOne({
         where: { cartId: cart.id, ProductId },
-        include: { all: true, nested: true },
+        include: [{ model: Cart }, { model: Product }],
       });
   
       if (!cartItem) {
@@ -41,33 +41,57 @@ class CartProductController{
   
   
 
-async getCartProducts(req,res){
+// async getCartProducts(req,res){
  
-    const { id } = req.params;
-    console.log(id)
-    try {
-      const cart = await Cart.findOne({ where: { userId: id } });
-      if (cart) {
-        const cartItems = await CartProducts.findAll({
-          where: { cartId: cart.id},
+//     const { id } = req.params;
+//     console.log(id)
+//     try {
+//       const cart = await Cart.findOne({ where: { userId: id } });
+//       if (cart) {
+//         const cartItems = await CartProducts.findAll({
+//           where: { cartId: cart.id},
        
-            include: { all: true, nested: true },
+//           include: { all: true, nested: true },
   
        
-        });
+//         });
   
       
   
-        res.json(cartItems);
-      } else {
-        res.status(404).json({ error: 'Cart not found' });
-      }
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
+//         res.json(cartItems);
+//       } else {
+//         res.status(404).json({ error: 'Cart not found' });
+//       }
+//     } catch (error) {
+//       res.status(500).json({ error: error.message });
+//     }
   
 
+// }
+async  getCartProducts(req, res) {
+  const { id } = req.params;
+  try {
+    const cart = await Cart.findOne({ where: { userId: id } });
+    if (cart) {
+      const cartItems = await CartProducts.findAll({
+        where: { cartId: cart.id },
+        include: {
+          model: Product,
+          include: {
+            model: Photo,
+          },
+        },
+      });
+
+      res.status(201).json(cartItems);
+    } else {
+      res.status(404).json({ error: "Cart not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
+
 
 
 // Increment quantity of a CartProduct
@@ -78,7 +102,12 @@ async incrementQuantity(req, res) {
     let cart = await Cart.findOne({ where: { userId } });
     const cartProduct = await CartProducts.findOne({
       where: { cartId: cart.id, ProductId },
-      include: { all: true, nested: true },
+      include: {
+        model: Product,
+        include: {
+          model: Photo,
+        },
+      },
     });
 
     if (cartProduct) {
@@ -109,7 +138,12 @@ async  decrementQuantity(req, res) {
 if (cart) {
   const cartProduct = await CartProducts.findOne({
     where: { cartId: cart.id, ProductId },
-    include: { all: true, nested: true }
+    include: {
+      model: Product,
+      include: {
+        model: Photo,
+      },
+    },
   });
 
   if (cartProduct) {
