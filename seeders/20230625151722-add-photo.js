@@ -22,7 +22,7 @@ module.exports = {
       {
 
         productId: 1,
-        url: "Esprit2.jpg",
+        url: "Esprit1.jpg",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
