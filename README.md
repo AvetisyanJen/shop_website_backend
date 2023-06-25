@@ -41,7 +41,7 @@ management, and order management.
 - dotenv - Environment variable management library.
 - react-jwt - React library for handling JWT authentication.
 - react-stripe-checkout - React library for integrating with Stripe checkout.
-- Yup - JavaScript schema validation library 
+
 ## Features
 ***
 - Home Page: A visually appealing landing page.
@@ -83,7 +83,7 @@ npm run dev
 - Cart management (add/remove)
 - CartItem management (add/remove/update items)
 - Order management includes the ability to create an order and view order history.
-- PostgreSQL database with Sequelize ORM
+- MySQL database with Sequelize ORM
 - Role-based access control (admin and user roles)
 - Seeding
 ## Installing
@@ -95,7 +95,7 @@ npm install
 ## Getting Started
 ***
 - To test the application
-- Install PostgreSQL database and create a new database for the project: npx sequelize-cli db:create
+- Install MySQL database and create a new database for the project: npx sequelize-cli db:create
 - Update the database credentials in the config/config.js file.
 - Run database migrations to create the required tables: npx sequelize-cli db:migrate
 - Make a temporary gmail account for testing purposes
