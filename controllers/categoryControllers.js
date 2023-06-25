@@ -52,7 +52,7 @@ class CategoryController {
         include: Product
       });
 
-      if (category.Product.length > 0) {
+      if (category.Product) {
         res.status(400).json({ error: 'Cannot delete category that has products' });
       } else {
         await Category.destroy({ where: { id } });

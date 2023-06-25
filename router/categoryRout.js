@@ -6,5 +6,5 @@ const category_router = express.Router();
 category_router.post("/create",AdminAuthenticate,CategoryController.createCategory)
 category_router.get("/get",CategoryController.getCategory)
 category_router.put("/update",AdminAuthenticate,CategoryController. updateCategory)
-category_router.delete("/delete",AdminAuthenticate,CategoryController.deleteCategory)
+category_router.delete("/delete/:id",AdminAuthenticate,CategoryController.deleteCategory)
 module.exports=category_router

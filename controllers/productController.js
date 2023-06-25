@@ -64,7 +64,27 @@ async allProductPurchas(req, res) {
 }
 
 
-  
+async deletephoto(req, res) {
+  const { id } = req.body;
+  try {
+      const photo = await Photo.findByPk(id);
+      if (!photo) {
+          return res.status(404).json({ error: 'Photo not found' });
+      }
+
+      await Photo.destroy({ where: { id } });
+
+      const filePath = path.join(__dirname, '..', 'Static', 'images', photo.url);
+ 
+      await fs.unlink(filePath);
+
+      res.json({ status: 'deleted' });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Something went wrong' });
+  }
+}
+
   async allProducts(req, res) {
     try {
       const products = await Product.findAll({

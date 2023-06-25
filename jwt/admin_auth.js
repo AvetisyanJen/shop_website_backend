@@ -3,8 +3,8 @@ require('dotenv').config();
 const SECRET = process.env.SECRET;
 
 function AdminAuthenticate(req, res, next) {
-  const { authorization } = req.headers?.split(' ')[1];;
-  const token = authorization
+  const { authorization } = req.headers;
+  const token = authorization?.split(' ')[1];
   if (token == null) {
     return res.sendStatus(401);
   }
@@ -19,7 +19,7 @@ function AdminAuthenticate(req, res, next) {
 
 function checkAdminRole(req, res, next) {
   const { user } = req;
-  if (user.role === 1 && user.userName === 'Admin') {
+  if (user.role === 1) {
     return next();
   }
   return res.sendStatus(403);
