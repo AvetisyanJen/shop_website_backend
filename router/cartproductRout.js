@@ -5,7 +5,7 @@ const { AuthenticateUserToken } = require('../jwt/auth_user');
 // const { AuthenticateUserToken } = require('../jwt/auth_user');
 const cartProduct_router = express.Router();
 
- cartProduct_router.post("/addcartProd",CartProductController.addCartProduct)
+ cartProduct_router.post("/addcartProd",AuthenticateUserToken,CartProductController.addCartProduct)
  cartProduct_router.get("/getCartProduct/:id",AuthenticateUserToken,CartProductController.getCartProducts)
  cartProduct_router.put("/increment",AuthenticateUserToken,CartProductController.incrementQuantity)
  cartProduct_router.put("/decrement",AuthenticateUserToken,CartProductController.decrementQuantity)

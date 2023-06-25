@@ -100,38 +100,7 @@ class OrderController {
   
 
 
-  // async getOrderProducts(req, res) {
-  //   const { id } = req.params;
-  //   console.log(id);
-  //   try {
-  //     // const order = await Order.findOne({ where: { user_id: id } });
-  //     // if (order) {
-  //       const orderItems = await OrderProduct.findAll({
-  //         where: { order_id: id},
-  //         include: [
-  //           {
-  //             model: Product,
-  //             // as: 'product',
-  //             include: [
-  //               {
-  //                 model: Photo,
-  //                 // as: 'photos',
-  //               },
-  //             ],
-  //           },
-  //         ],
-  //       });
-  
-      
-  
-  //       res.json(orderItems);
-  //     // } else {
-  //     //   res.status(404).json({ error: 'order not found' });
-  //     // }
-  //   } catch (error) {
-  //     res.status(500).json({ error: error.message });
-  //   }
-  // }
+
   
   
 

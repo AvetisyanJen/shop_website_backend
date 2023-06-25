@@ -38,36 +38,6 @@ class CartProductController{
     }
   }
   
-  
-  
-
-// async getCartProducts(req,res){
- 
-//     const { id } = req.params;
-//     console.log(id)
-//     try {
-//       const cart = await Cart.findOne({ where: { userId: id } });
-//       if (cart) {
-//         const cartItems = await CartProducts.findAll({
-//           where: { cartId: cart.id},
-       
-//           include: { all: true, nested: true },
-  
-       
-//         });
-  
-      
-  
-//         res.json(cartItems);
-//       } else {
-//         res.status(404).json({ error: 'Cart not found' });
-//       }
-//     } catch (error) {
-//       res.status(500).json({ error: error.message });
-//     }
-  
-
-// }
 async  getCartProducts(req, res) {
   const { id } = req.params;
   try {
@@ -174,7 +144,7 @@ async removeCartProduct(req, res) {
     if (cart) {
       const cartProduct = await CartProducts.findOne({
         where: { cartId: cart.id, ProductId },
-        include: { all: true, nested: true }
+        // include: { all: true, nested: true }
       });
 
       if (cartProduct) {

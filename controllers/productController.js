@@ -1,45 +1,12 @@
 const { Product, Photo, sequelize,Category,Movement,Brand,gender,OrderProduct } = require("../models/index");
 const fs=require("fs")
 const path=require("path")
+const { Op } = require('sequelize');
+
+
 class ProductController{
 
- 
-// async getProduct(req, res) {
-//   const { id } = req.params;
-//   try {
-//     const product = await Product.findOne({
-//       where: { id },
-//       include: [{ model: Photo}, { model: Category },{model:Movement},{model:Brand},{model:gender}],
-//     });
-//     res.status(201).json(product);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// }
-// async getProduct(req, res) {
-//   const { id } = req.params;
-//   try {
-//     const product = await Product.findOne({
-//       where: { id },
-//       include: [{ model: Photo}, { model: Category },{model:Movement},{model:Brand},{model:gender}],
-//     });
 
-//     if (!product) {
-//       return res.status(404).json({ message: 'Product not found' });
-//     }
-
-//     const totalPurchases = await OrderProduct.count({
-//       where: { product_id: id }
-//     });
-
-//     // Add the totalPurchases count to the product object
-//     product.dataValues.totalPurchases = totalPurchases;
-
-//     res.status(201).json(product);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// }
 async getProduct(req, res) {
   const { id } = req.params;
   try {
@@ -56,13 +23,43 @@ async getProduct(req, res) {
       where: { product_id: id }
     });
 
-    // Add the totalPurchases and totalQuantity to the product object
+   
     product.dataValues.totalPurchases = totalPurchases;
    
 
     res.status(201).json(product);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+}
+
+
+async allProductPurchas(req, res) {
+  try {
+    const products = await Product.findAll({
+      include: [{ model: Photo }, { model: Category }, { model: Movement }, { model: Brand }, { model: gender }],
+    });
+
+    if (products && products.length > 0) {
+      for (const product of products) {
+        const totalPurchases = await OrderProduct.sum('quantity', {
+          where: { product_id: product.id },
+        });
+        product.dataValues.totalPurchases = totalPurchases;
+      }
+
+      // Sort products by totalPurchases in descending order
+      products.sort((a, b) => b.dataValues.totalPurchases - a.dataValues.totalPurchases);
+
+      // Retrieve the top 10 products with the highest totalPurchases
+      const topPurchasedProducts = products.slice(0, 10);
+
+      res.json(topPurchasedProducts);
+    } else {
+      res.json([]);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 }
 
@@ -78,7 +75,7 @@ async getProduct(req, res) {
       if (products && products.length > 0) {
         res.json(products);
       } else {
-        res.json([]); // Send an empty array if no products found
+        res.json([]); 
       }
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -175,6 +172,21 @@ async  deleteProduct(req, res) {
       res.status(500).json({ message: 'Something went wrong!' });
     }
   }
+
+  async searchProduct(req, res) {
+    try {
+      const productName = await Product.findOne({
+        where: { name: { [Op.like]: `${req.query.name}%` } },
+        include: [Photo, Category, Movement, Brand, gender]
+      });
+      console.log(productName)
+      res.json(productName);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+  
   
   
   
